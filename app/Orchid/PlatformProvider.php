@@ -30,21 +30,14 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             Menu::make('Manage Items')
                 ->icon('monitor')
-                ->route('platform.example')
-                ->title('Navigation')
-                ->badge(function () {
-                    return 6;
-                }),
-
+                ->route('platform.items.index')
+                ->title('Mange Items'),
             
+            Menu::make('Manage Machine Space')
+                ->icon('table')
+                ->route('platform.slots.index')
+                ->title('Slots on the machine'),
 
-            Menu::make('Changelog')
-                ->icon('shuffle')
-                ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
-                ->target('_blank')
-                ->badge(function () {
-                    return Dashboard::version();
-                }, Color::DARK()),
 
             Menu::make(__('Users'))
                 ->icon('user')

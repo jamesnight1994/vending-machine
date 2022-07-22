@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'domain' => env('DASHBOARD_DOMAIN', null),
+    'domain' => env('DASHBOARD_DOMAIN', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -128,8 +128,8 @@ return [
     */
 
     'template' => [
-        'header' => null,
-        'footer' => null,
+        'header' => '',
+        'footer' => '',
     ],
 
     /*

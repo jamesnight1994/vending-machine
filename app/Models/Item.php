@@ -8,5 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     use HasFactory;
-    protected $fillable = $this->toArray();
+
+    protected $fillable = [
+        'name','slot_no','price','image'
+    ];
+
+    /**
+     * Belongs to Slot
+     */
+    public function slot(Type $var = null)
+    {
+        $this->belongsTo(Slot::class);
+    }
+    
 }
