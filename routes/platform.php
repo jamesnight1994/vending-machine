@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Slots\{SlotIndexScreen};
+use App\Orchid\Screens\Slots\{SlotCreateScreen,SlotIndexScreen};
 use App\Orchid\Screens\Items\{ItemCreateScreen,ItemsIndexScreen};
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
@@ -93,11 +93,13 @@ Route::screen('roles', RoleListScreen::class)
 
     
 
+Route::screen('item/{item?}', ItemCreateScreen::class)
+    ->name('platform.items.create');
 Route::screen('items', ItemsIndexScreen::class)
     ->name('platform.items.index');
-Route::screen('items/create', ItemCreateScreen::class)
-    ->name('platform.items.create');
-    
+
+Route::screen('slot/{slot?}', SlotCreateScreen::class)
+    ->name('platform.slots.create');
 Route::screen('slots', SlotIndexScreen::class)
     ->name('platform.slots.index');
 

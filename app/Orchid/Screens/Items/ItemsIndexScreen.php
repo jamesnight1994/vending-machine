@@ -41,7 +41,7 @@ class ItemsIndexScreen extends Screen
     {
         return [
             Link::make('Create new')
-                ->icon('pencil')
+                ->icon('plus-alt')
                 ->route('platform.items.create')
         ];
     }

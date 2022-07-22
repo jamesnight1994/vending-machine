@@ -49,10 +49,6 @@ class ItemCreateScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Button::make('Create post')
-                ->icon('pencil')
-                ->method('createOrUpdate')
-                ->canSee(!$this->item->exists),
 
             Button::make('Update')
                 ->icon('note')

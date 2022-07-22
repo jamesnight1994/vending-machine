@@ -2,6 +2,8 @@
 
 namespace App\Orchid\Screens\Slots;
 
+use App\Models\Slot;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use App\Orchid\Layouts\Slots\SlotsListLayout;
 
@@ -15,7 +17,7 @@ class SlotIndexScreen extends Screen
     public function query(): iterable
     {
         return [
-            'slots' => [],
+            'slots' => Slot::paginate(),
         ];
     }
 
@@ -36,7 +38,11 @@ class SlotIndexScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Link::make('Create new')
+            ->icon('plus-alt')
+            ->route('platform.slots.create'),
+        ];
     }
 
     /**
