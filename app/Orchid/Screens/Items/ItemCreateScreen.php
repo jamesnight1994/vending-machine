@@ -2,12 +2,13 @@
 
 namespace App\Orchid\Screens\Items;
 
-use App\Models\Item;
+use App\Models\{Item,Slot};
 use Illuminate\Http\Request;
+use Orchid\Attachment\File;
 use Orchid\Screen\Fields\Image;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
-use Orchid\Screen\Fields\Quill;
+use Orchid\Screen\Fields\{Quill,Select};
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Fields\Upload;
@@ -50,6 +51,11 @@ class ItemCreateScreen extends Screen
     {
         return [
 
+            Button::make('Create')
+                ->icon('plus')
+                ->method('createOrUpdate')
+                ->canSee(!$this->item->exists),
+
             Button::make('Update')
                 ->icon('note')
                 ->method('createOrUpdate')
@@ -69,27 +75,73 @@ class ItemCreateScreen extends Screen
      */
     public function layout(): iterable
     {
-        return [
+        $availableSlots = Slot::where('capacity','>',0)
+            ->where('capacity', '>', 0)
+            ->get()
+            ->transform(function($slot,$key){
+                return [
+                    'id' => $slot->id,
+                    'slot' => $slot->col.$slot->row,
+                ];
+            })->pluck('slot','id');
+            return [
             Layout::rows([
                 Input::make('item.name')
                     ->title('Name')
                     ->placeholder('Enter name of the item')
                     ->help('A short specific name for the item'),
                     
-                Input::make('item.slot_no')
-                    ->title('Slot Number')
-                    ->placeholder('Attractive but mysterious title')
-                    ->help('Item Slot Number'),
+                Select::make('item.slot')
+                    ->title('Slot')
+                    ->options($availableSlots)
+                    ->empty('No select'),
 
                 Input::make('item.stock')
                     ->type('number')
                     ->title('Stock')
-                    ->placeholder('Attractive but mysterious title')
+                    ->placeholder('How many items do you want to load')
                     ->help('How many are you stocking in the venidng machine.'),
 
                 Picture::make('item.image')
                     ->title('Image'),
             ])
         ];
+    }
+
+    /**
+     * @param Item    $item
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createOrUpdate(Item $item, Request $request)
+    {
+        $slot = Slot::find($request->item['slot']);
+        $request->validate([
+            'item.name' => 'required',
+            'item.slot' => 'required',
+            'item.image' => 'required',
+            'item.stock' => [
+                    'required',
+                    function($attribute, $value, $fail) use($request,$slot){
+                        
+                        if($value > $slot->capacity){
+                            $fail("$attribute is larger than the slot capacity");
+                        }
+                    }
+                ]
+        ]);
+        
+        
+        $item->fill($request->get('item'))
+            ->slot()->associate($request->item['slot'])
+            ->save();
+        
+        $slot->capacity -= $request->item['stock'];
+        $slot->save();
+
+        Alert::info('You have successfully created an post.');
+
+        return redirect()->route('platform.items.index');
     }
 }

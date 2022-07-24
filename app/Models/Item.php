@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Orchid\Attachment\Attachable;
+use Orchid\Screen\AsSource;
 
 class Item extends Model
 {
-    use HasFactory;
+    use AsSource,Attachable,HasFactory;
 
     protected $fillable = [
         'name','slot_no','price','image'
@@ -18,7 +20,7 @@ class Item extends Model
      */
     public function slot(Type $var = null)
     {
-        $this->belongsTo(Slot::class);
+        return $this->belongsTo(Slot::class);
     }
     
 }

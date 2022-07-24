@@ -27,7 +27,10 @@ class ItemsListLayout extends Table
         return [
             TD::make('name'),
             TD::make('price'),
-            TD::make('image'),
+            TD::make('image') ->render(function ($slot) {
+                $img = $slot->image;
+                return '<img height="50px" src="'.$img.'"./';
+            }),
         ];
     }
 }

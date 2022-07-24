@@ -25,10 +25,13 @@ class SlotsListLayout extends Table
     protected function columns(): iterable
     {
         return [
+            TD::make('col'),
             TD::make('row'),
             TD::make('capacity'),
-            TD::make('stock'),
-            TD::make('image'),
+            TD::make('image') ->render(function ($slot) {
+                $img = $slot->image;
+                return '<img height="50px" src="'.$img.'"./';
+            }),
         ];
     }
 }
