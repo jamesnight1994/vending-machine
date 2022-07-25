@@ -25,10 +25,13 @@ class ItemsListLayout extends Table
     protected function columns(): iterable
     {
         return [
-            TD::make('name'),
+            TD::make('name')->render(function($item){
+                $route = route('platform.items.edit',$item->id);
+                return '<a href="'.$route.'">'.$item->name.'</a>';
+            }),
             TD::make('price'),
-            TD::make('image') ->render(function ($slot) {
-                $img = $slot->image;
+            TD::make('image') ->render(function ($item) {
+                $img = $item->image;
                 return '<img height="50px" src="'.$img.'"./';
             }),
         ];

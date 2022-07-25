@@ -94,12 +94,12 @@ Route::screen('roles', RoleListScreen::class)
     
 
 Route::screen('item/{item?}', ItemCreateScreen::class)
-    ->name('platform.items.create');
+    ->name('platform.items.edit');
 Route::screen('items', ItemsIndexScreen::class)
     ->name('platform.items.index');
 
 Route::screen('slot/{slot?}', SlotCreateScreen::class)
-    ->name('platform.slots.create');
+    ->name('platform.slots.edit');
 Route::screen('slots', SlotIndexScreen::class)
     ->name('platform.slots.index');
 

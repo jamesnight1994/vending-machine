@@ -41,7 +41,7 @@ class SlotIndexScreen extends Screen
         return [
             Link::make('Create new')
             ->icon('plus-alt')
-            ->route('platform.slots.create'),
+            ->route('platform.items.edit'),
         ];
     }
 

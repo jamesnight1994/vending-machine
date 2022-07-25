@@ -142,6 +142,21 @@ class ItemCreateScreen extends Screen
 
         Alert::info('You have successfully created an post.');
 
-        return redirect()->route('platform.items.index');
+        return redirect()->route('platform.items.edit');
+    }
+
+    /**
+     * @param Item $item
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function remove(Item $item)
+    {
+        $item->delete();
+
+        Alert::info('You have successfully deleted the item.');
+
+        return redirect()->route('platform.post.list');
     }
 }

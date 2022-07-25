@@ -42,7 +42,7 @@ class ItemsIndexScreen extends Screen
         return [
             Link::make('Create new')
                 ->icon('plus-alt')
-                ->route('platform.items.create')
+                ->route('platform.items.edit')
         ];
     }
 
