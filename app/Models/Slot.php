@@ -9,4 +9,13 @@ use Orchid\Screen\AsSource;
 class Slot extends Model
 {
     use AsSource,HasFactory;
+
+    /**
+     * Has many items
+     */
+    public function item()
+    {
+        return $this->hasOne(Item::class);
+    }
+    
 }

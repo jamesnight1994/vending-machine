@@ -13,6 +13,9 @@
         <tr>
         @foreach($cols as $col_key => $col)
         <td>{{ $row_key.$col_key }}</td>
+        <td>
+            <img src="{{ $col[0]['item']['image'] }}" alt="">
+        </td>
         @endforeach
         </tr>
         @endforeach

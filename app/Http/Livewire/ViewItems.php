@@ -10,11 +10,11 @@ class ViewItems extends Component
     public $cols,$rows;
 
     public function __construct() {
-        $slots = Slot::where('capacity','>','0')->get()->toArray();
+        $slots = Slot::has('item')->with(['item'])->get();
         
         $cols = collect($slots)->groupBy('col')->toArray();
         $rows = collect($slots)->groupBy('row')->toArray();
-        // dd($cols);
+        // dd();
         
         $this->cols = $cols;
         $this->rows = $rows;
