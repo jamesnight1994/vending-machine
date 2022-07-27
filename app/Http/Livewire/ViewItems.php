@@ -8,8 +8,8 @@ use Livewire\Component;
 class ViewItems extends Component
 {
     public $cols,$rows;
-    public $collectedCash;
-    public array $selectedItem, $denoms;
+    public $collectedCash, $selectedItem;
+    public array $denoms;
 
     public function __construct() {
         $slots = Slot::has('item')->with(['item'])->get();
@@ -84,18 +84,13 @@ class ViewItems extends Component
 
     public function buy()
     {
-         // take the cents see how many dollars they add up to
-         $cash->where('type','cent')->each(function($denom,$key) use($total){
-            $total += $denom['value']??0;
-        });
-        // convert to dollars
-        $total = $total/100;
-
-        // add up the dollars
-        $cash->where('type','dollar')->each(function($denom,$key) use($total){
-            $total += $deno['value']??0;
-
-        });
+        $collectedCash = $this->collectCash;
+        $selectedItem = $this->selectItem;
+        // check if the amount is enough
+        if($collectCash == $selectItem['price']){
+            $item = Item::find($selectItem['id'])->decrement('stock',1);
+        }
+        
     }
 
     public function collectCash(array $denom)
@@ -115,7 +110,7 @@ class ViewItems extends Component
 
     public function selectItem(array $item)
     {
-        $this->selectedItem[] = $item;
+        $this->selectedItem = $item;
     }
     
     public function render()
