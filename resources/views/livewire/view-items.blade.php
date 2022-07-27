@@ -17,7 +17,7 @@
             <img style="text-align:center" src="{{ $col[0]['item']['image'] }}" alt=""><br><br>
             Slot:{{ $row_key.$col_key }}
             Price: {{ $col[0]['item']['price'] }}
-            <button wire:click="selectItem(@json($col[0]['item']))">
+            <button wire:click="selectItem({{ json_encode($col[0]['item']) }})">
                 Select Item
             </button>
         </td>
@@ -26,23 +26,17 @@
         @endforeach
     </tbody>
     </table><br><br><br>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
+    <div class="container">
+        <ul class="list-group">
+            @foreach($denoms as $denom)
+            <li wire:click="collectCash({{ json_encode($denom) }})" class="list-group-item" aria-current="true">
+                {{ $denom['value'].$denom['type'] }}
+            </li>
+            @endforeach
+        </ul>
 
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
     </div>
+    {{ $collectedCash }}
 
 
 </div>

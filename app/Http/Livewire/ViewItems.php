@@ -8,7 +8,7 @@ use Livewire\Component;
 class ViewItems extends Component
 {
     public $cols,$rows;
-
+    public $collectedCash;
     public array $selectedItem, $denoms;
 
     public function __construct() {
@@ -19,6 +19,7 @@ class ViewItems extends Component
         // dd();
         
         $this->cart = [];
+        $this->collectedCash = 0;
         $this->denoms = [
             [
                 'value' => 5,
@@ -81,27 +82,34 @@ class ViewItems extends Component
         $this->rows = $rows;
     }
 
-    public function buy(array $denoms)
+    public function buy()
     {
-        $cash = json_decode($denoms);
-        $cash = collect($cash);
-        $total = 0;
-        
-        // take the cents see how many dollars they add up to
-        $cash->where('type','cent')->each(function($denom,$key) use($total){
-            $total += $denom['value'];
-
+         // take the cents see how many dollars they add up to
+         $cash->where('type','cent')->each(function($denom,$key) use($total){
+            $total += $denom['value']??0;
         });
         // convert to dollars
         $total = $total/100;
 
         // add up the dollars
         $cash->where('type','dollar')->each(function($denom,$key) use($total){
-            $total += $deno['value'];
+            $total += $deno['value']??0;
 
         });
+    }
 
-        dd($total);
+    public function collectCash(array $denom)
+    {
+        $total = (float) 0;
+        
+       // if it is a cent
+       if($denom['type'] == 'cent'){
+        $total += $denom['value']/100;
+       }elseif($denom['type'] == 'dollar'){
+        $total += $denom['value'];
+       }
+
+        $this->collectedCash += $total;
         
     }
 
