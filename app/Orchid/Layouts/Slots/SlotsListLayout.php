@@ -27,11 +27,11 @@ class SlotsListLayout extends Table
         return [
             TD::make('col'),
             TD::make('row'),
-            TD::make('capacity'),
-            TD::make('image') ->render(function ($slot) {
-                $img = $slot->image;
-                return '<img height="50px" src="'.$img.'"./';
-            }),
+            // TD::make('capacity'),
+            // TD::make('image') ->render(function ($slot) {
+            //     $img = $slot->image;
+            //     return '<img height="50px" src="'.$img.'"./';
+            // }),
         ];
     }
 }

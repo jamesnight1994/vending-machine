@@ -74,10 +74,6 @@ class SlotCreateScreen extends Screen
                     ->title('Rows')->type('number')
                     ->help('Number of rows'),
 
-                Input::make('slot.capacity')
-                    ->title('Capacity')->type('number')
-                    ->help('Capacity for each slot'),
-
             ])
         ];
     }
@@ -96,7 +92,6 @@ class SlotCreateScreen extends Screen
                 $cols [] = [
                     'col' => $col,
                     'row' => $j,
-                    'capacity' => $input['capacity'],
                 ];
 
             }
@@ -104,8 +99,7 @@ class SlotCreateScreen extends Screen
         $slot->insert($cols);
 
         $racks = $input['cols'] * $input['rows'];
-        $capacity = $input['capacity'];
-        Alert::info("You have successfully created an {$racks} each with a capacity of {$capacity}.");
+        Alert::info("You have successfully created an {$racks}.");
 
     }
 }

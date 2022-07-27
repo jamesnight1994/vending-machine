@@ -12,7 +12,7 @@ class Item extends Model
     use AsSource,Attachable,HasFactory;
 
     protected $fillable = [
-        'name','slot_no','price','image'
+        'name','price','image','stock'
     ];
 
     /**

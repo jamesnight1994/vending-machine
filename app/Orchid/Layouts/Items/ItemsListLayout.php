@@ -30,6 +30,7 @@ class ItemsListLayout extends Table
                 return '<a href="'.$route.'">'.$item->name.'</a>';
             }),
             TD::make('price'),
+            TD::make('stock'),
             TD::make('image') ->render(function ($item) {
                 $img = $item->image;
                 return '<img height="50px" src="'.$img.'"./';

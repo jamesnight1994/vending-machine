@@ -75,9 +75,7 @@ class ItemCreateScreen extends Screen
      */
     public function layout(): iterable
     {
-        $availableSlots = Slot::where('capacity','>',0)
-            ->where('capacity', '>', 0)
-            ->get()
+        $availableSlots = Slot::whereDoesntHave('item')->get()
             ->transform(function($slot,$key){
                 return [
                     'id' => $slot->id,
@@ -94,6 +92,10 @@ class ItemCreateScreen extends Screen
                 Select::make('item.slot')
                     ->title('Slot')
                     ->options($availableSlots)
+                    ->empty('No select'),
+                    
+                Input::make('item.price')
+                    ->title('price')
                     ->empty('No select'),
 
                 Input::make('item.stock')
@@ -119,17 +121,10 @@ class ItemCreateScreen extends Screen
         $slot = Slot::find($request->item['slot']);
         $request->validate([
             'item.name' => 'required',
+            'item.price' => 'required',
             'item.slot' => 'required',
             'item.image' => 'required',
-            'item.stock' => [
-                    'required',
-                    function($attribute, $value, $fail) use($request,$slot){
-                        
-                        if($value > $slot->capacity){
-                            $fail("$attribute is larger than the slot capacity");
-                        }
-                    }
-                ]
+            'item.stock' => 'required',
         ]);
         
         
@@ -137,10 +132,9 @@ class ItemCreateScreen extends Screen
             ->slot()->associate($request->item['slot'])
             ->save();
         
-        $slot->capacity -= $request->item['stock'];
         $slot->save();
 
-        Alert::info('You have successfully created an post.');
+        Alert::info('You have successfully loaded an item.');
 
         return redirect()->route('platform.items.edit');
     }
